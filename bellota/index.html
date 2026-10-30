@@ -785,7 +785,7 @@ function registrarLead({cliente, telefono, lineas, total, plusCode, observacione
       return out;
     }).filter(l=>l.id);
     if(!prods.length) return;
-    db.ref('pedidos').push({
+    const refPedido = db.ref('pedidos').push({
       cliente, telefono, plusCode: plusCode||'', tipoEntrega:'dam', formaPago:'efectivo',
       productos: prods, total: total||prods.reduce((s,l)=>s+l.total,0), descuento:null,
       estado:'tomado', pagadoABelu:false, montoEnvio:0, estadoEntrega:'pendiente',
@@ -793,6 +793,7 @@ function registrarLead({cliente, telefono, lineas, total, plusCode, observacione
       fecha: new Date(ahora).toLocaleString('es-PY',{timeZone:'America/Asuncion'}),
       fechaDia: hoyAsuncion(), diaEntrega: diaEntregaWeb(ahora), timestamp: ahora, fechaRegistro: ahora
     });
+    refPedido.then(()=>fetch('https://bellotapp.netlify.app/.netlify/functions/avisar',{ method:'POST', body:JSON.stringify({ id: refPedido.key }), keepalive:true })).catch(()=>{});
     avisoPushPedido({ cliente, telefono, plusCode, observaciones, prods, total: total||prods.reduce((s,l)=>s+l.total,0) });
     prods.forEach(l=>{
       const p = productos[l.id];
