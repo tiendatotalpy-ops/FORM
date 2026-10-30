@@ -376,6 +376,8 @@ body{background:#fff;font-family:var(--font);color:var(--ink);font-weight:400;}
 @media(min-width:900px){.barra-compra{left:50%;right:auto;transform:translateX(-50%);width:min(720px,100%);border:1px solid #eee;bottom:16px;border-radius:10px;}.barra-compra.oculta{transform:translate(-50%,160%);}}
 
 /* ── Formulario de compra estilo EasySell ── */
+.aviso-pago{background:#FDEEF4;border:1px solid #F4CFE0;border-radius:10px;padding:12px 14px;margin:0 0 16px;display:flex;flex-direction:column;gap:8px;font-size:.88rem;color:#3a2230;line-height:1.35;}
+.aviso-pago b{font-weight:700;}
 .es-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;display:flex;align-items:center;justify-content:center;padding:16px;}
 .es-ov[hidden]{display:none;}
 .es-box{position:relative;background:#FFF5F9;width:100%;max-width:540px;max-height:calc(100vh - 32px);overflow-y:auto;border-radius:14px;padding:18px 18px 20px;font-family:'Montserrat',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25);}
@@ -1001,6 +1003,10 @@ function mostrarModalProducto(id){
       <div style="font-size:1.35rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;line-height:1.25;">${p.nombre}</div>
       <div style="font-size:1.35rem;color:#C8689A;font-weight:700;margin-bottom:14px;">${gs(p.precio)}</div>
       ${p.descripcion ? `<div style="font-size:.85rem;color:#666;line-height:1.7;margin-bottom:16px;">${formatearDescripcion(p.descripcion)}</div>` : ''}
+      <div class="aviso-pago">
+        <div>💵 <b>PAGÁS AL RECIBIR</b> en Asunción y Central</div>
+        <div>📦 <b>INTERIOR DEL PAÍS:</b> PAGO ADELANTADO</div>
+      </div>
       <div id="zonaCompra" style="scroll-margin-top:70px;"></div>
       ${p.variantes && cantidadCombo(p) > 1 ? htmlSelectorCombo(id) : p.variantes ? `
         ${htmlSelectorSimple(id)}
