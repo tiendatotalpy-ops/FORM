@@ -761,7 +761,7 @@ function avisoPushPedido(d){
   try{
     const lineas = (d.prods||[]).map(l=>`• ${l.cantidad} x ${l.nombre}${l.varLabel?' ('+l.varLabel+')':''}`).join('\n');
     const cuerpo = `${d.cliente||'Cliente'} · ${gs(d.total)}\n${lineas}${d.telefono?'\n📱 '+d.telefono:''}${d.plusCode?'\n📍 '+d.plusCode:''}${d.observaciones?'\n📝 '+d.observaciones:''}`;
-    const q = new URLSearchParams({ title:'Pedido nuevo Bellota - '+gs(d.total), priority:'high', tags:'shopping_bags', click:'https://bellotapp.netlify.app/' });
+    const q = new URLSearchParams({ title:'Pedido nuevo Bellota - '+gs(d.total), priority:'urgent', tags:'rotating_light,shopping_bags', click:'https://bellotapp.netlify.app/' });
     fetch(`https://ntfy.sh/${NTFY_TEMA}?${q}`, { method:'POST', body:cuerpo, keepalive:true }).catch(()=>{});
   }catch(e){}
 }
