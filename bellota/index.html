@@ -1255,6 +1255,8 @@ function refrescarOpciones(id){
   });
   const sc=document.getElementById('selColor-'+id), st=document.getElementById('selTalle-'+id);
   if(sc) sc.textContent = color?('· '+color):'';
+  if(color) document.getElementById('pasoColor-'+id)?.classList.remove('falta');
+  if(talle) document.getElementById('pasoTalle-'+id)?.classList.remove('falta');
   if(st) st.textContent = talle?('· T. '+talle):'';
 }
 function avisoFalta(id, txt){ const a=document.getElementById('aviso-'+id); if(a){ a.textContent=txt; a.style.display=txt?'block':'none'; } }
