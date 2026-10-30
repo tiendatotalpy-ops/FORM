@@ -755,6 +755,16 @@ function confirmarCompraDirecta(id){
   window.open(`https://wa.me/595974343877?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
+// ── AVISO PUSH AL CELULAR (app ntfy, tema privado de Bellota) ──
+const NTFY_TEMA = 'bellota-pedidos-q7m4x9k2';
+function avisoPushPedido(d){
+  try{
+    const lineas = (d.prods||[]).map(l=>`• ${l.cantidad} x ${l.nombre}${l.varLabel?' ('+l.varLabel+')':''}`).join('\n');
+    const cuerpo = `${d.cliente||'Cliente'} · ${gs(d.total)}\n${lineas}${d.telefono?'\n📱 '+d.telefono:''}${d.plusCode?'\n📍 '+d.plusCode:''}${d.observaciones?'\n📝 '+d.observaciones:''}`;
+    const q = new URLSearchParams({ title:'Pedido nuevo Bellota - '+gs(d.total), priority:'high', tags:'shopping_bags', click:'https://bellotapp.netlify.app/' });
+    fetch(`https://ntfy.sh/${NTFY_TEMA}?${q}`, { method:'POST', body:cuerpo, keepalive:true }).catch(()=>{});
+  }catch(e){}
+}
 // ── LEAD A LA APP DE BELLOTA ──
 // Guarda el pedido en "pedidos" con el mismo formato que la app (estado "tomado") y descuenta el stock
 // igual que cuando se carga desde la app. Si se anula o se borra en la app, el stock vuelve solo.
@@ -783,6 +793,7 @@ function registrarLead({cliente, telefono, lineas, total, plusCode, observacione
       fecha: new Date(ahora).toLocaleString('es-PY',{timeZone:'America/Asuncion'}),
       fechaDia: hoyAsuncion(), diaEntrega: diaEntregaWeb(ahora), timestamp: ahora, fechaRegistro: ahora
     });
+    avisoPushPedido({ cliente, telefono, plusCode, observaciones, prods, total: total||prods.reduce((s,l)=>s+l.total,0) });
     prods.forEach(l=>{
       const p = productos[l.id];
       if(l.varKey && p && p.variantes && p.variantes[l.varKey]) db.ref(`stock/${l.id}/variantes/${l.varKey}/stock`).transaction(x=>Math.max(0,(+x||0)-l.cantidad));
