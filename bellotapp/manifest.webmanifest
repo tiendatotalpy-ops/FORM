@@ -1,0 +1,12 @@
+{
+  "name": "Bellota — Pedidos",
+  "short_name": "Bellota",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FBF7FC",
+  "theme_color": "#7E3592",
+  "icons": [
+    { "src": "/icon.png", "sizes": "120x120", "type": "image/png", "purpose": "any" }
+  ]
+}
